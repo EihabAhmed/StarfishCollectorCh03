@@ -7,9 +7,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public abstract class GameBeta extends Game {
     protected Stage mainStage;
+    protected Stage uiStage;
 
     public void create() {
         mainStage = new Stage();
+        uiStage = new Stage();
         initialize();
     }
 
@@ -20,6 +22,7 @@ public abstract class GameBeta extends Game {
 
         // act method
         mainStage.act(dt);
+        uiStage.act(dt);
 
         // defined by user
         update(dt);
@@ -29,6 +32,7 @@ public abstract class GameBeta extends Game {
 
         // draw the graphics
         mainStage.draw();
+        uiStage.draw();
     }
 
     public abstract void update(float dt);
