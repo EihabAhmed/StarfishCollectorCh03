@@ -3,8 +3,12 @@ package com.mygdx.starfishcollectorch03;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class Turtle extends BaseActor {
+
+    private boolean dead;
+    private boolean win;
 
     public Turtle(float x, float y, Stage s) {
         super(x, y, s);
@@ -24,6 +28,10 @@ public class Turtle extends BaseActor {
     public void act(float dt) {
         super.act(dt);
 
+        if (dead || win) {
+            return;
+        }
+
         if (Gdx.input.isKeyPressed(Keys.LEFT))
             accelerateAtAngle(180);
         if (Gdx.input.isKeyPressed(Keys.RIGHT))
@@ -42,5 +50,25 @@ public class Turtle extends BaseActor {
 
         boundToWorld();
         alignCamera();
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void die() {
+        dead = true;
+        setAnimationPaused(true);
+        addAction(Actions.fadeOut(1));
+        addAction(Actions.after(Actions.removeActor()));
+    }
+
+    public void stop() {
+        win = true;
+        setAnimationPaused(true);
     }
 }

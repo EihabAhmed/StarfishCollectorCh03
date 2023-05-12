@@ -1,10 +1,8 @@
 package com.mygdx.starfishcollectorch03;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
-public class LevelScreen extends BaseScreen {
+public class LevelScreen2 extends BaseScreen {
     private Turtle turtle;
 
     private boolean win;
@@ -18,16 +16,12 @@ public class LevelScreen extends BaseScreen {
 
         new Starfish(400, 400, mainStage);
         new Starfish(500, 100, mainStage);
-        new Starfish(100, 450, mainStage);
-        new Starfish(200, 250, mainStage);
-        new Starfish(500, 500, mainStage);
-        new Starfish(700, 700, mainStage);
 
         new Rock(200, 150, mainStage);
         new Rock(100, 300, mainStage);
-        new Rock(300, 350, mainStage);
-        new Rock(450, 200, mainStage);
-        new Rock(100, 700, mainStage);
+
+        new Shark(100, 200, mainStage);
+        new Shark(200, 300, mainStage);
 
         turtle = new Turtle(20, 20, mainStage);
 
@@ -56,15 +50,25 @@ public class LevelScreen extends BaseScreen {
             win = true;
             turtle.stop();
 
-            BaseActor levelCompletedMessage = new BaseActor(0, 0, uiStage);
-            levelCompletedMessage.loadTexture("message-continue.png");
-            levelCompletedMessage.centerAtPosition(400, 300);
-            levelCompletedMessage.setOpacity(0);
-            levelCompletedMessage.addAction(Actions.delay(1));
-            levelCompletedMessage.addAction(Actions.after(Actions.fadeIn(1)));
+            BaseActor youWinMessage = new BaseActor(0, 0, uiStage);
+            youWinMessage.loadTexture("you-win.png");
+            youWinMessage.centerAtPosition(400, 300);
+            youWinMessage.setOpacity(0);
+            youWinMessage.addAction(Actions.delay(1));
+            youWinMessage.addAction(Actions.after(Actions.fadeIn(1)));
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.C) && win)
-            StarfishGame.setActiveScreen(new LevelScreen2());
+        for (BaseActor sharkActor : BaseActor.getList(mainStage, "com.mygdx.starfishcollectorch03.Shark")) {
+            Shark shark = (Shark) sharkActor;
+            if (turtle.overlaps(shark)) {
+                turtle.die();
+                BaseActor gameOverMessage = new BaseActor(0, 0, uiStage);
+                gameOverMessage.loadTexture("game-over.png");
+                gameOverMessage.centerAtPosition(400, 300);
+                gameOverMessage.setOpacity(0);
+                gameOverMessage.addAction(Actions.delay(1));
+                gameOverMessage.addAction(Actions.after(Actions.fadeIn(1)));
+            }
+        }
     }
 }
