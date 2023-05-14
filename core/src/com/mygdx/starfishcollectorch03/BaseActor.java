@@ -265,7 +265,10 @@ public class BaseActor extends Actor {
     }
 
     public void centerAtActor(BaseActor other) {
-        setPosition(other.getX(), other.getY());
+        setPosition(
+                other.getX() + other.getWidth() / 2 - getWidth() / 2,
+                other.getY() + other.getHeight() / 2 - getHeight() / 2
+        );
     }
 
     public void setOpacity(float opacity) {
